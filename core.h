@@ -2,10 +2,10 @@
 #define CORE_H
 
 #include "SDL.h"
-//#include <SDL2/SDL.h>
 #include "Unit/weapon.h"
 #include "Unit/enemy.h"
 #include "score.h"
+#include "mixer.h"
 #include <memory>
 #include <vector>
 
@@ -22,6 +22,7 @@ private:
     std::shared_ptr<Weapon> m_weapon;
     std::vector<std::shared_ptr<Enemy> > m_enemies;
     std::shared_ptr<Score> m_score;
+    std::shared_ptr<Mixer> m_mixer;
     void actionCannon(const SDL_Point &mousePoint);
 
     Uint32 m_timeClick;

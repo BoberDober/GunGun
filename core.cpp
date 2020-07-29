@@ -93,7 +93,8 @@ bool Core::OnInit()
 
     SDL_Rect scoreRect = {m_weapon->getRect()->x + (m_weapon->getRect()->w / 2) - (m_weapon->getRect()->w / 3) / 2, m_weapon->getRect()->y, m_weapon->getRect()->w / 3, m_weapon->getRect()->h};
     m_score = std::make_shared<Score>(scoreRect);
-
+    m_mixer = std::make_shared<Mixer>();
+    m_mixer->playMusic();
     return true;
 }
 
@@ -113,6 +114,7 @@ void Core::OnEvent(SDL_Event* event)
 
         case SDL_MOUSEBUTTONUP:
             m_weapon->setIsAim(false);
+            m_mixer->playShoot();
             if(!m_weapon->getIsShoot())
             {
                 m_weapon->onShoot(m_renderer);
@@ -174,6 +176,7 @@ void Core::OnLoop()
         if(indexIntersects != -1)
         {
             m_enemies[indexIntersects]->setAlive(false);
+            m_mixer->playHit();
             m_score->incScore();
             m_weapon->deleteCannonBall();
         }
@@ -243,6 +246,7 @@ void Core::OnRender()
 
 void Core::OnCleanup()
 {
+    m_mixer->stopMusic();
     SDL_DestroyRenderer(m_renderer);
     SDL_DestroyTexture(m_backgroundTexture);
     SDL_DestroyWindow(m_mainWindow);
