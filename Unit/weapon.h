@@ -3,6 +3,7 @@
 
 #include "unit.h"
 #include "SDL.h"
+//#include <SDL2/SDL.h>
 #include "cannon.h"
 #include "cannonball.h"
 
@@ -11,7 +12,7 @@ class Weapon: public Unit
 public:
     Weapon();
 
-    bool create(SDL_Rect rect, SDL_Renderer *renderer);
+    bool create(const SDL_Rect &rect, SDL_Renderer *renderer);
 
     SDL_Rect *getCannonRect();
     SDL_Texture *getCannonTexture();
@@ -33,8 +34,8 @@ public:
     void render(SDL_Renderer *renderer);
 
 private:
-    Cannon* m_cannon;
-    CannonBall* m_cannonBall;
+    std::shared_ptr<Cannon> m_cannon;
+    std::shared_ptr<CannonBall> m_cannonBall;
     bool m_isAim;
     bool m_isShoot;
 };

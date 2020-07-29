@@ -10,7 +10,7 @@ class Enemy: public Unit
 {
 public:
     Enemy();
-    bool create(SDL_Rect rect, SDL_Renderer *renderer);
+    bool create(const SDL_Rect &rect, SDL_Renderer *renderer);
     void move();
     bool alive() const;
     void setAlive(bool alive);

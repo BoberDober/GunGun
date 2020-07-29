@@ -5,7 +5,7 @@ Cannon::Cannon()
 
 }
 
-bool Cannon::create(SDL_Rect rect, SDL_Renderer *renderer)
+bool Cannon::create(const SDL_Rect &rect, SDL_Renderer *renderer)
 {
     m_rect = rect;
     m_texture = IMG_LoadTexture(renderer, "../GunGun/resource/cannon.png");
@@ -28,5 +28,5 @@ void Cannon::setAnlge(double anlge)
 
 void Cannon::render(SDL_Renderer *renderer)
 {
-    SDL_RenderCopyEx(renderer, m_texture, nullptr, &m_rect, m_anlge, NULL, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, getTexture(), nullptr, &m_rect, m_anlge, NULL, SDL_FLIP_NONE);
 }

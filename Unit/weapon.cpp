@@ -3,14 +3,14 @@
 
 Weapon::Weapon(): Unit()
 {
-    m_cannon = new Cannon();
+    m_cannon = std::make_shared<Cannon>();
     m_isAim = false;
 //    m_trackPoint = {0, 0};
     m_isShoot = false;
-    m_cannonBall = new CannonBall();
+    m_cannonBall = std::make_shared<CannonBall>();
 }
 
-bool Weapon::create(SDL_Rect rect, SDL_Renderer *renderer)
+bool Weapon::create(const SDL_Rect &rect, SDL_Renderer *renderer)
 {
     m_rect = rect;
     m_texture = IMG_LoadTexture(renderer, "../GunGun/resource/stand.png");
@@ -95,7 +95,7 @@ void Weapon::moveCannonBall(int x, int y)
 
 void Weapon::render(SDL_Renderer *renderer)
 {
-    SDL_RenderCopy(renderer, m_texture, nullptr, &m_rect);
+    SDL_RenderCopy(renderer, getTexture(), nullptr, &m_rect);
     m_cannon->render(renderer);
     if(m_isShoot)
     {

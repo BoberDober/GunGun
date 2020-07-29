@@ -2,20 +2,20 @@
 #include "iostream"
 #include "string"
 
-Enemy::Enemy()
+Enemy::Enemy() :
+    m_alive(false),
+    m_direction(RIGHT),
+    m_type(PUNK),
+    m_frame(0)
 {
-    m_alive = false;
-    m_direction = RIGHT;
-    m_type = PUNK;
-    m_frame = 0;
 }
 
-bool Enemy::create(SDL_Rect rect, SDL_Renderer *renderer)
+bool Enemy::create(const SDL_Rect &rect, SDL_Renderer *renderer)
 {
     m_direction = static_cast<Direction>(rand() % 2 == 0);
     m_type = static_cast<Type>(rand() % 3);
     m_rect = rect;
-    m_rect.y = rand() % 100 +0;
+    m_rect.y = rand() % 100;
     m_speed = rand() % 7 +2;
     std::string path = "../GunGun/resource/enemyTiles/";
     switch (m_type)
@@ -89,6 +89,6 @@ void Enemy::render(SDL_Renderer *renderer)
 {
     SDL_Rect srcRect = { m_rect.w * m_frame, 0, m_rect.w, m_rect.h };
     SDL_Rect rect = { getRect()->x, getRect()->y, m_rect.w, m_rect.h };
-    SDL_RenderCopy(renderer, m_texture, &srcRect, &rect);
+    SDL_RenderCopy(renderer, getTexture(), &srcRect, &rect);
 }
 

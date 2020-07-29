@@ -8,7 +8,7 @@ class Cannon: public Unit
 public:
     Cannon();
 
-    bool create(SDL_Rect rect, SDL_Renderer *renderer);
+    bool create(const SDL_Rect &rect, SDL_Renderer *renderer);
 
     double getAnlge() const;
     void setAnlge(double anlge);

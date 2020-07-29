@@ -5,7 +5,7 @@ CannonBall::CannonBall()
 
 }
 
-bool CannonBall::create(SDL_Rect rect, SDL_Renderer *renderer)
+bool CannonBall::create(const SDL_Rect &rect, SDL_Renderer *renderer)
 {
     m_rect = rect;
     m_texture = IMG_LoadTexture(renderer, "../GunGun/resource/cannonBall.png");
@@ -24,5 +24,5 @@ void CannonBall::move(int x, int y)
 
 void CannonBall::render(SDL_Renderer *renderer)
 {
-    SDL_RenderCopy(renderer, m_texture, nullptr, &m_rect);
+    SDL_RenderCopy(renderer, getTexture(), nullptr, &m_rect);
 }

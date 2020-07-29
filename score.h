@@ -3,6 +3,8 @@
 
 #include "SDL2_TTF/SDL_ttf.h"
 #include "SDL.h"
+//#include <SDL2/SDL_ttf.h>
+//#include <SDL2/SDL.h>
 
 class Score
 {
@@ -13,6 +15,7 @@ private:
     SDL_Color m_color;
 public:
     Score(const SDL_Rect &rect);
+    ~Score();
     void incScore();
     void render(SDL_Renderer *renderer);
 };

@@ -7,6 +7,4 @@ int main(int argv, char** args)
 {
     Core core;
     return core.OnExecute();
-
-    return 0;
 }

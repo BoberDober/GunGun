@@ -2,9 +2,12 @@
 #define CORE_H
 
 #include "SDL.h"
+//#include <SDL2/SDL.h>
 #include "Unit/weapon.h"
 #include "Unit/enemy.h"
 #include "score.h"
+#include <memory>
+#include <vector>
 
 class Core
 {
@@ -16,9 +19,9 @@ private:
     SDL_Window *m_mainWindow;
     SDL_Texture *m_backgroundTexture;
     SDL_Renderer *m_renderer;
-    Weapon *m_weapon;
-    Enemy *m_enemies;
-    Score *m_score;
+    std::shared_ptr<Weapon> m_weapon;
+    std::vector<std::shared_ptr<Enemy> > m_enemies;
+    std::shared_ptr<Score> m_score;
     void actionCannon(const SDL_Point &mousePoint);
 
     Uint32 m_timeClick;

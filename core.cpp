@@ -9,8 +9,14 @@ Core::Core()
     m_height = 365;
     m_running = true;
     m_mainWindow = nullptr;
+    m_backgroundTexture = nullptr;
+    m_renderer = nullptr;
     m_nEnemies = 3;
-    m_enemies = new Enemy[m_nEnemies];
+    m_enemies.resize(m_nEnemies);
+    for(int i = 0; i < m_nEnemies; ++i)
+    {
+        m_enemies[i] = std::make_shared<Enemy>();
+    }
     srand(time(0));
 }
 
@@ -78,7 +84,7 @@ bool Core::OnInit()
     SDL_FreeSurface(backgroundSurface);
 
 
-    m_weapon = new Weapon();
+    m_weapon = std::make_shared<Weapon>();
     SDL_Rect weaponRect = {m_width / 2 - 50, 315, 100, 44};
     if(m_weapon->create(weaponRect, m_renderer) == false)
     {
@@ -86,7 +92,7 @@ bool Core::OnInit()
     }
 
     SDL_Rect scoreRect = {m_weapon->getRect()->x + (m_weapon->getRect()->w / 2) - (m_weapon->getRect()->w / 3) / 2, m_weapon->getRect()->y, m_weapon->getRect()->w / 3, m_weapon->getRect()->h};
-    m_score = new Score(scoreRect);
+    m_score = std::make_shared<Score>(scoreRect);
 
     return true;
 }
@@ -130,19 +136,19 @@ void Core::OnLoop()
 {
 
     //enemies loop
-    for(int i=0; i<m_nEnemies; i++)
+    for(auto enemies: m_enemies)
     {
-        if(!m_enemies[i].alive())
+        if(!enemies->alive())
         {
             SDL_Rect enemyRect = {m_width, 0, 50, 50};
-            m_enemies[i].create(enemyRect, m_renderer);
+            enemies->create(enemyRect, m_renderer);
         }
         else
         {
-            m_enemies[i].move();
-            if(m_enemies[i].getRect()->x > m_width || m_enemies[i].getRect()->x < 0 - m_enemies[i].getRect()->w)
+            enemies->move();
+            if(enemies->getRect()->x > m_width || enemies->getRect()->x < 0 - enemies->getRect()->w)
             {
-                m_enemies[i].setAlive(false);
+                enemies->setAlive(false);
             }
         }
     }
@@ -167,7 +173,7 @@ void Core::OnLoop()
         int indexIntersects = isIntersects();
         if(indexIntersects != -1)
         {
-            m_enemies[indexIntersects].setAlive(false);
+            m_enemies[indexIntersects]->setAlive(false);
             m_score->incScore();
             m_weapon->deleteCannonBall();
         }
@@ -207,7 +213,7 @@ int Core::isIntersects()
     int index = -1;
     for(int i=0; i<m_nEnemies; i++)
     {
-        const SDL_Rect *a_rect =  m_enemies[i].getRect();
+        const SDL_Rect *a_rect =  m_enemies[i]->getRect();
         int a_x = a_rect->x, a_y = a_rect->y, a_x1 = a_rect->x + a_rect->w, a_y1 = a_rect->y + a_rect->h;
         const SDL_Rect *b_rect = m_weapon->getCannonBallRect();
         int b_x = b_rect->x, b_y = b_rect->y, b_x1 = b_rect->x + b_rect->w;
@@ -227,7 +233,7 @@ void Core::OnRender()
     m_weapon->render(m_renderer);
     for(int i=0; i<m_nEnemies; i++)
     {
-        m_enemies[i].render(m_renderer);
+        m_enemies[i]->render(m_renderer);
     }
 
     m_score->render(m_renderer);
